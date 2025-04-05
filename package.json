@@ -1,0 +1,47 @@
+{
+  "name": "@expreva/php-wasm",
+  "description": "PHP-WASM for Node.js and the web - Published as individual versions",
+  "type": "module",
+  "private": true,
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/expreva/php-wasm"
+  },
+  "homepage": "https://github.com/expreva/php-wasm",
+  "scripts": {
+    "start": "serve .",
+    "build": "bun run build.ts",
+    "build:packages": "bun run build.ts packages",
+    "build:web": "bun run build.ts web",
+    "release": "bun run build.ts release",
+    "release:dry-run": "bun run build.ts release:dry-run",
+    "test": "bun run tests/index.ts"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "@php-wasm/fs-journal": "1.0.28",
+    "@php-wasm/logger": "^1.0.28",
+    "@php-wasm/node": "^1.0.28",
+    "@php-wasm/node-polyfills": "^1.0.28",
+    "@php-wasm/universal": "^1.0.28",
+    "@php-wasm/util": "1.0.28",
+    "@php-wasm/web": "^1.0.28",
+    "@php-wasm/web-service-worker": "1.0.28",
+    "@rollup/plugin-commonjs": "^28.0.3",
+    "@rollup/plugin-node-resolve": "^16.0.1",
+    "@types/bun": "^1.2.8",
+    "@types/fs-extra": "^11.0.4",
+    "comlink": "^4.4.1",
+    "esbuild": "^0.25.2",
+    "rollup": "^4.39.0",
+    "rollup-plugin-terser": "^7.0.2",
+    "serve": "^14.2.4",
+    "testra": "^2.1.5",
+    "wasm-feature-detect": "^1.8.0",
+    "ws": "^8.18.1",
+    "zx": "^8.5.0"
+  },
+  "peerDependencies": {
+    "typescript": "^5"
+  }
+}

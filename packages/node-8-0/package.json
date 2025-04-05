@@ -1,0 +1,37 @@
+{
+  "name": "@expreva/php-wasm-8-0",
+  "version": "1.0.28",
+  "description": "PHP-WASM for Node.js - Published as individual versions",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/expreva/php-wasm.git"
+  },
+  "homepage": "https://github.com/expreva/php-wasm",
+  "author": "The WordPress contributors",
+  "exports": {
+    ".": {
+      "import": "./index.js",
+      "require": "./index.cjs"
+    },
+    "./package.json": "./package.json",
+    "./README.md": "./README.md"
+  },
+  "type": "module",
+  "main": "./index.cjs",
+  "module": "./index.js",
+  "license": "GPL-2.0-or-later",
+  "types": "index.d.ts",
+  "engines": {
+    "node": ">=18.18.0",
+    "npm": ">=8.11.0"
+  },
+  "scripts": {},
+  "dependencies": {
+    "wasm-feature-detect": "1.8.0",
+    "ws": "8.18.0",
+    "@php-wasm/node-polyfills": "1.0.28",
+    "@php-wasm/universal": "1.0.28",
+    "@php-wasm/logger": "1.0.28",
+    "@php-wasm/util": "1.0.28"
+  }
+}
