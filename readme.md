@@ -1,6 +1,6 @@
 # PHP-WASM version packages
 
-This project builds every version of PHP-WASM as an individual package. It is based on [`@php-wasm/node`](hhttps://github.com/WordPress/wordpress-playground/tree/trunk/packages/php-wasm/node) and [`@php-wasm/web`](https://github.com/WordPress/wordpress-playground/tree/trunk/packages/php-wasm/web), which compile PHP to WebAssembly for Node.js and the web.
+This project builds every version of PHP-WASM as an individual package. It is based on [`@php-wasm/node`](https://github.com/WordPress/wordpress-playground/tree/trunk/packages/php-wasm/node) and [`@php-wasm/web`](https://github.com/WordPress/wordpress-playground/tree/trunk/packages/php-wasm/web), which compile PHP to WebAssembly for Node.js and the web.
 
 ## Why
 
