@@ -1,17 +1,17 @@
 {
   "name": "@expreva/php-wasm",
-  "version": "1.0.28",
+  "version": "1.0.29-alpha.2",
   "description": "PHP-WASM for Node.js - Published as individual versions",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/expreva/php-wasm.git"
   },
   "homepage": "https://github.com/expreva/php-wasm",
-  "author": "The WordPress contributors",
   "exports": {
     ".": {
       "import": "./index.js",
-      "require": "./index.cjs"
+      "require": "./index.cjs",
+      "types": "./index.d.ts"
     },
     "./package.json": "./package.json",
     "./README.md": "./README.md"

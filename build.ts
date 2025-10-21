@@ -9,6 +9,7 @@ import { excludeVersions } from './common.ts'
 
 const cwd = process.cwd()
 const packagesPath = path.join(cwd, 'packages')
+const templatesPath = path.join(cwd, 'templates')
 
 const rollupPlugins = [
   commonJsPlugin(),
@@ -52,7 +53,9 @@ switch (target) {
     await releasePackages({})
     break
   case 'release:dry-run':
-    await releasePackages(false)
+    await releasePackages({
+      dryRun: true
+    })
     break
 }
 
@@ -112,16 +115,18 @@ async function releasePackages(
 }
 
 async function buildPackages() {
+
   for (const phpWasmType of ['node', 'web']) {
+
     const srcDirPath = path.join(cwd, 'node_modules', '@php-wasm', phpWasmType)
 
     await fs.copy(
       path.join(srcDirPath, 'package.json'),
-      `package-${phpWasmType}-original.json`
+      path.join(templatesPath, `package-${phpWasmType}-original.json`)
     )
 
     const packageTemplateJson = await fs.readJson(
-      `package-${phpWasmType}-template.json`
+      path.join(templatesPath, `package-${phpWasmType}-template.json`)
     )
 
     for (const version of SupportedPHPVersions) {
@@ -179,7 +184,8 @@ async function buildPackages() {
          * HACK: Patch import/export statements that expect to be bundled
          */
         if (phpWasmType === 'node') {
-          if (file === `index.js`) {
+
+          if (file === `index.js` || file === `index.d.ts`) {
             await fs.writeFile(
               targetFilePath,
               (await fs.readFile(targetFilePath, 'utf8')) +
@@ -187,7 +193,7 @@ async function buildPackages() {
             )
           }
         } else if (phpWasmType === 'web') {
-          if (file === `index.js`) {
+          if (file === `index.js` || file === `index.d.ts`) {
             await fs.writeFile(
               targetFilePath,
               (await fs.readFile(targetFilePath, 'utf8')) +

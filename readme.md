@@ -1,4 +1,4 @@
-# PHP-WASM version packages
+# PHP-WASM versions
 
 This project builds every version of PHP-WASM as an individual package. It is based on [`@php-wasm/node`](https://github.com/WordPress/wordpress-playground/tree/trunk/packages/php-wasm/node) and [`@php-wasm/web`](https://github.com/WordPress/wordpress-playground/tree/trunk/packages/php-wasm/web), which compile PHP to WebAssembly for Node.js and the web.
 
@@ -56,10 +56,10 @@ bun run serve
 ## Release
 
 ```sh
-# Release dry-run
+# Release dry run: verify package and files to be published
 bun run release:dry-run
 # Release - Generate and pass one-time pass
 OTP=XXX bun run release
 ```
 
-Note: The one-time pass can expire during the release process because of how many packages are published at the same time. Regenerate the OTP and run the command again to continue. It may be necessary to wait a while before re-running the command because the version check is done by requesting the registry, which is not updated immediately after package is published.
+Note: The one-time pass can expire during the release process because of how many packages are published at the same time. Regenerate the OTP and run the command again to continue. You might need to wait a while before re-running the command. The version check is done by requesting the NPM registry, which is not updated immediately after package is published.
