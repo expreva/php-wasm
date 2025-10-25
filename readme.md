@@ -1,10 +1,10 @@
-# PHP-WASM versions
+# PHP WebAssembly versions
 
-This project builds every version of PHP-WASM as an individual package. It is based on [`@php-wasm/node`](https://github.com/WordPress/wordpress-playground/tree/trunk/packages/php-wasm/node) and [`@php-wasm/web`](https://github.com/WordPress/wordpress-playground/tree/trunk/packages/php-wasm/web), which compile PHP to WebAssembly for Node.js and the web.
+This project builds every version of PHP WebAssembly as an individual package. It is based on [`@php-wasm/node`](https://github.com/WordPress/wordpress-playground/tree/trunk/packages/php-wasm/node) and [`@php-wasm/web`](https://github.com/WordPress/wordpress-playground/tree/trunk/packages/php-wasm/web), which compile PHP to Wasm for Node.js and the web.
 
 ## Why
 
-The original packages are published with all versions together, where each package's download size is ~300MB. In contrast, this project creates individual version packages that are ~33MB each.
+The original packages are published with all versions together, where each package's download size is ~~300MB~~ 568M now. In contrast, this project creates individual version packages that are ~~33MB~~ 93M each.
 
 ## Changes
 

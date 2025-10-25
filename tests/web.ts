@@ -7,7 +7,7 @@ run(async function () {
 
     let result
 
-    test(`PHP-WASM version ${phpVersion}`, async () => {
+    test(`PHP WebAssembly version ${phpVersion}`, async () => {
       result = await import(
         `/packages/web-${versionDash}/php-wasm-web-${versionDash}.min.js`
       )

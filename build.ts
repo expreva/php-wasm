@@ -2,7 +2,7 @@ import esbuild, { type BuildOptions as EsbuildOptions } from 'esbuild'
 import { $, fs, glob, path } from 'zx'
 import { SupportedPHPVersions } from '@php-wasm/universal'
 import { rollup, type InputOptions, type OutputOptions } from 'rollup'
-import { terser } from 'rollup-plugin-terser'
+import terser from '@rollup/plugin-terser'
 import { nodeResolve } from '@rollup/plugin-node-resolve'
 import commonJsPlugin from '@rollup/plugin-commonjs'
 import { excludeVersions } from './common.ts'
@@ -11,12 +11,37 @@ const cwd = process.cwd()
 const packagesPath = path.join(cwd, 'packages')
 const templatesPath = path.join(cwd, 'templates')
 
+function fileUrlPlugin() {
+  return {
+    name: 'dat-wasm-url-resolver',
+    resolveId(source: string) {
+      if (source.endsWith('.dat') || source.endsWith('.wasm')) {
+        return source // Mark this import as handled by our plugin
+      }
+      return null // Let other plugins or default resolution handle other imports
+    },
+    load(id: string) {
+      if (id.endsWith('.dat') || id.endsWith('.wasm')) {
+        console.log('Relative import path', id)
+        return `export default '${id}';` // How about the relative path?
+
+        // Convert the file path to a URL that can be imported
+        // const resolvedUrl = new URL(id, import.meta.url).href;
+        // console.log('RESOLVED', id, '=', resolvedUrl)
+        // return `export default '${resolvedUrl}';`;
+      }
+      return null
+    },
+  }
+}
+
 const rollupPlugins = [
   commonJsPlugin(),
   nodeResolve({
     browser: true,
   }),
   terser(),
+  fileUrlPlugin(),
 ]
 
 async function buildRollup(
@@ -54,7 +79,7 @@ switch (target) {
     break
   case 'release:dry-run':
     await releasePackages({
-      dryRun: true
+      dryRun: true,
     })
     break
 }
@@ -87,7 +112,9 @@ async function releasePackages(
 
       console.log('Check if version already exists')
       try {
-        const info = JSON.parse((await $`curl -s https://registry.npmjs.org/${packageName}`).stdout)
+        const info = JSON.parse(
+          (await $`curl -s https://registry.npmjs.org/${packageName}`).stdout
+        )
         if (info.versions && info.versions[packageVersion]) {
           console.log('This version already published', packageVersion)
           continue
@@ -115,9 +142,10 @@ async function releasePackages(
 }
 
 async function buildPackages() {
-
-  for (const phpWasmType of ['node', 'web']) {
-
+  for (const phpWasmType of [
+    'node',
+    'web',
+  ]) {
     const srcDirPath = path.join(cwd, 'node_modules', '@php-wasm', phpWasmType)
 
     await fs.copy(
@@ -154,6 +182,7 @@ async function buildPackages() {
           'index.js.map',
           'index.d.ts',
           'lib/**/*',
+          'shared/**/*',
           'LICENSE',
           'README.md',
 
@@ -184,7 +213,6 @@ async function buildPackages() {
          * HACK: Patch import/export statements that expect to be bundled
          */
         if (phpWasmType === 'node') {
-
           if (file === `index.js` || file === `index.d.ts`) {
             await fs.writeFile(
               targetFilePath,
@@ -202,7 +230,9 @@ async function buildPackages() {
           } else if (file === `php/asyncify/php_${versionUnderscore}.js`) {
             await fs.writeFile(
               targetFilePath,
-              (await fs.readFile(targetFilePath, 'utf8')).replace(
+              (
+                await fs.readFile(targetFilePath, 'utf8')
+              ).replace(
                 `import dependencyFilename from './`,
                 `const dependencyFilename = './php/asyncify/`
               )
@@ -210,7 +240,9 @@ async function buildPackages() {
           } else if (file === `php/jspi/php_${versionUnderscore}.js`) {
             await fs.writeFile(
               targetFilePath,
-              (await fs.readFile(targetFilePath, 'utf8')).replace(
+              (
+                await fs.readFile(targetFilePath, 'utf8')
+              ).replace(
                 `import dependencyFilename from './`,
                 `const dependencyFilename = './php/jspi/`
               )
@@ -262,6 +294,7 @@ async function buildPackages() {
           format: 'umd',
           indent: false,
           sourcemap: true,
+          inlineDynamicImports: true, // Prevents splitting
         }
 
         await buildRollup(inputOptions, outputOptions)
