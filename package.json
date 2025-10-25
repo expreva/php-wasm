@@ -1,6 +1,6 @@
 {
   "name": "@expreva/php-wasm",
-  "description": "PHP-WASM for Node.js and the web - Published as individual versions",
+  "description": "PHP Webassembly for Node.js and the web - Published as individual versions",
   "type": "module",
   "private": true,
   "repository": {
